@@ -1,0 +1,297 @@
+{
+  "description": "Clinical ground truth for drug interaction validation. Sources: FDA Drug Labels, ACC/AHA Guidelines, CHEST Guidelines, ADA Standards of Care, ESC Guidelines, NICE Guidelines, and major RCTs.",
+  "positive_interactions": [
+    {
+      "drug_pair": ["Warfarin", "Aspirin"],
+      "severity": "Critical",
+      "mechanism_keywords": ["additive bleeding", "anticoagulant", "antiplatelet", "synergistic"],
+      "outcome_keywords": ["gi bleed", "intracranial hemorrhage", "major bleeding", "bleeding"],
+      "recommendation_keywords": ["avoid", "monitor", "inr", "proton pump inhibitor", "ppi"],
+      "source": "FDA Boxed Warning, CHEST Guideline, ACC/AHA"
+    },
+    {
+      "drug_pair": ["Simvastatin", "Clarithromycin"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp3a4 inhibition", "cyp3a4", "metabolism"],
+      "outcome_keywords": ["myopathy", "rhabdomyolysis", "muscle", "ck"],
+      "recommendation_keywords": ["avoid", "suspend", "pravastatin", "rosuvastatin"],
+      "source": "FDA Label, AHA Scientific Statement"
+    },
+    {
+      "drug_pair": ["Warfarin", "Metronidazole"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp2c9 inhibition", "cyp2c9", "metabolism"],
+      "outcome_keywords": ["bleeding", "supratherapeutic inr", "hemorrhage"],
+      "recommendation_keywords": ["monitor inr", "reduce dose", "frequent monitoring"],
+      "source": "FDA Label, ASH Guideline"
+    },
+    {
+      "drug_pair": ["Omeprazole", "Clopidogrel"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp2c19 inhibition", "cyp2c19", "activation"],
+      "outcome_keywords": ["cardiovascular event", "stent thrombosis", "reduced efficacy"],
+      "recommendation_keywords": ["pantoprazole", "avoid", "ticagrelor", "prasugrel"],
+      "source": "FDA Drug Safety Communication, COGENT Trial, ESC Guideline"
+    },
+    {
+      "drug_pair": ["Morphine", "Lorazepam"],
+      "severity": "Critical",
+      "mechanism_keywords": ["additive sedation", "cns depressant", "respiratory depression"],
+      "outcome_keywords": ["respiratory depression", "coma", "death", "oversedation"],
+      "recommendation_keywords": ["avoid", "naloxone", "lowest dose", "monitor"],
+      "source": "FDA Black Box Warning, CDC Guideline"
+    },
+    {
+      "drug_pair": ["Lisinopril", "Losartan"],
+      "severity": "High",
+      "mechanism_keywords": ["dual raas blockade", "antagonism", "raas"],
+      "outcome_keywords": ["hyperkalemia", "acute kidney injury", "aki", "hypotension"],
+      "recommendation_keywords": ["avoid", "monitor potassium", "monitor creatinine"],
+      "source": "ONTARGET Trial (NEJM), KDIGO Guideline"
+    },
+    {
+      "drug_pair": ["Metformin", "Furosemide"],
+      "severity": "Medium",
+      "mechanism_keywords": ["renal excretion", "competition", "reduced clearance"],
+      "outcome_keywords": ["lactic acidosis", "reduced efficacy", "dehydration"],
+      "recommendation_keywords": ["monitor renal function", "dose adjustment"],
+      "source": "ADA Standards of Care, FDA Label"
+    },
+    {
+      "drug_pair": ["Carbamazepine", "Oral Contraceptives"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp3a4 induction", "cyp3a4", "metabolism", "enzyme induction"],
+      "outcome_keywords": ["contraceptive failure", "unplanned pregnancy", "breakthrough bleeding"],
+      "recommendation_keywords": ["non-hormonal", "iud", "backup contraception"],
+      "source": "ACOG Practice Bulletin, AAN Guideline"
+    },
+    {
+      "drug_pair": ["Amoxicillin", "Warfarin"],
+      "severity": "High",
+      "mechanism_keywords": ["vitamin k", "gut flora", "cyp2c9"],
+      "outcome_keywords": ["bleeding", "supratherapeutic inr"],
+      "recommendation_keywords": ["monitor inr", "dose adjustment"],
+      "source": "ASH Guideline, Chest Guideline"
+    },
+    {
+      "drug_pair": ["Fluconazole", "Warfarin"],
+      "severity": "Critical",
+      "mechanism_keywords": ["cyp2c9 inhibition", "cyp2c9", "metabolism"],
+      "outcome_keywords": ["bleeding", "supratherapeutic inr", "major bleeding"],
+      "recommendation_keywords": ["reduce warfarin dose", "monitor inr", "avoid"],
+      "source": "FDA Label, ASH Guideline"
+    },
+    {
+      "drug_pair": ["Amlodipine", "Simvastatin"],
+      "severity": "Medium",
+      "mechanism_keywords": ["cyp3a4 inhibition", "cyp3a4", "weak inhibitor"],
+      "outcome_keywords": ["myopathy", "rhabdomyolysis"],
+      "recommendation_keywords": ["limit simvastatin dose", "20 mg", "pravastatin"],
+      "source": "FDA Label, AHA Scientific Statement"
+    },
+    {
+      "drug_pair": ["Verapamil", "Metoprolol"],
+      "severity": "High",
+      "mechanism_keywords": ["additive bradycardia", "heart block", "negative chronotropy"],
+      "outcome_keywords": ["bradycardia", "av block", "syncope", "heart failure"],
+      "recommendation_keywords": ["avoid", "monitor heart rate", "ecg"],
+      "source": "ACC/AHA Guideline, ESC Guideline"
+    },
+    {
+      "drug_pair": ["Sertraline", "Tramadol"],
+      "severity": "Critical",
+      "mechanism_keywords": ["serotonin syndrome", "serotonergic", "ssri", "snri"],
+      "outcome_keywords": ["serotonin syndrome", "hyperthermia", "rigidity", "autonomic instability"],
+      "recommendation_keywords": ["avoid", "monitor", "lower dose"],
+      "source": "FDA Warning, Hunter Criteria"
+    },
+    {
+      "drug_pair": ["Enoxaparin", "Aspirin"],
+      "severity": "High",
+      "mechanism_keywords": ["additive bleeding", "anticoagulant", "antiplatelet"],
+      "outcome_keywords": ["gi bleed", "hemorrhage", "epidural hematoma"],
+      "recommendation_keywords": ["monitor", "ppi", "gastroprotection"],
+      "source": "FDA Label, ACC/AHA"
+    },
+    {
+      "drug_pair": ["Ritonavir", "Simvastatin"],
+      "severity": "Critical",
+      "mechanism_keywords": ["cyp3a4 inhibition", "strong inhibitor", "cyp3a4"],
+      "outcome_keywords": ["rhabdomyolysis", "myopathy", "acute kidney injury"],
+      "recommendation_keywords": ["contraindicated", "avoid", "pravastatin"],
+      "source": "FDA Label, IDSA Guideline"
+    },
+    {
+      "drug_pair": ["Digoxin", "Amiodarone"],
+      "severity": "High",
+      "mechanism_keywords": ["p-glycoprotein inhibition", "p-gp", "renal clearance"],
+      "outcome_keywords": ["digoxin toxicity", "arrhythmia", "nausea", "visual disturbance"],
+      "recommendation_keywords": ["reduce digoxin dose", "monitor level", "ecg"],
+      "source": "FDA Label, ACC/AHA AF Guideline"
+    },
+    {
+      "drug_pair": ["Lithium", "Furosemide"],
+      "severity": "High",
+      "mechanism_keywords": ["renal reabsorption", "sodium depletion", "renal clearance"],
+      "outcome_keywords": ["lithium toxicity", "tremor", "nephrotoxicity"],
+      "recommendation_keywords": ["monitor lithium level", "hydration", "dose reduction"],
+      "source": "FDA Label, APA Guideline"
+    },
+    {
+      "drug_pair": ["Phenytoin", "Warfarin"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp2c9 induction", "cyp2c9", "metabolism", "enzyme induction"],
+      "outcome_keywords": ["thrombosis", "reduced anticoagulation", "subtherapeutic inr"],
+      "recommendation_keywords": ["monitor inr", "dose adjustment", "frequent testing"],
+      "source": "ASH Guideline, AAN Guideline"
+    },
+    {
+      "drug_pair": ["Levothyroxine", "Calcium Carbonate"],
+      "severity": "Medium",
+      "mechanism_keywords": ["absorption", "gastric ph", "chelation", "binding"],
+      "outcome_keywords": ["hypothyroidism", "tsh elevation", "reduced efficacy"],
+      "recommendation_keywords": ["separate by 4 hours", "timing"],
+      "source": "ATA Guideline, FDA Label"
+    },
+    {
+      "drug_pair": ["Ibuprofen", "Lisinopril"],
+      "severity": "High",
+      "mechanism_keywords": ["prostaglandin inhibition", "renal perfusion", "ace inhibitor"],
+      "outcome_keywords": ["acute kidney injury", "aki", "hyperkalemia", "fluid retention"],
+      "recommendation_keywords": ["avoid", "monitor renal function", "acetaminophen"],
+      "source": "ESC Heart Failure Guideline, FDA Label"
+    },
+    {
+      "drug_pair": ["Allopurinol", "Azathioprine"],
+      "severity": "Critical",
+      "mechanism_keywords": ["xanthine oxidase inhibition", "6-mercaptopurine", "metabolism"],
+      "outcome_keywords": ["bone marrow suppression", "pancytopenia", "neutropenia"],
+      "recommendation_keywords": ["contraindicated", "avoid", "dose reduction 25%"],
+      "source": "FDA Label, ACR Guideline"
+    },
+    {
+      "drug_pair": ["Methotrexate", "Trimethoprim-Sulfamethoxazole"],
+      "severity": "Critical",
+      "mechanism_keywords": ["folate antagonism", "additive toxicity", "renal clearance"],
+      "outcome_keywords": ["pancytopenia", "bone marrow suppression", "mucositis", "hepatotoxicity"],
+      "recommendation_keywords": ["avoid", "contraindicated", "monitor cbc"],
+      "source": "FDA Label, ACR Guideline"
+    },
+    {
+      "drug_pair": ["Prednisone", "Ibuprofen"],
+      "severity": "High",
+      "mechanism_keywords": ["additive gi toxicity", "ulcerogenic", "prostaglandin"],
+      "outcome_keywords": ["gi bleed", "peptic ulcer", "perforation"],
+      "recommendation_keywords": ["ppi", "avoid", "monitor", "gastroprotection"],
+      "source": "FDA Label, ACR Guideline"
+    },
+    {
+      "drug_pair": ["Sildenafil", "Nitroglycerin"],
+      "severity": "Critical",
+      "mechanism_keywords": ["additive hypotension", "pde5 inhibitor", "nitrate", "vasodilation"],
+      "outcome_keywords": ["severe hypotension", "syncope", "myocardial infarction", "death"],
+      "recommendation_keywords": ["contraindicated", "absolute contraindication", "avoid"],
+      "source": "FDA Boxed Warning, ACC/AHA"
+    },
+    {
+      "drug_pair": ["Fluoxetine", "Tramadol"],
+      "severity": "Critical",
+      "mechanism_keywords": ["serotonin syndrome", "ssri", "snri", "serotonergic"],
+      "outcome_keywords": ["serotonin syndrome", "hyperthermia", "autonomic instability"],
+      "recommendation_keywords": ["avoid", "monitor", "lower dose"],
+      "source": "FDA Warning, Hunter Criteria"
+    },
+    {
+      "drug_pair": ["Cyclosporine", "Fluconazole"],
+      "severity": "Critical",
+      "mechanism_keywords": ["cyp3a4 inhibition", "cyp3a4", "p-glycoprotein"],
+      "outcome_keywords": ["nephrotoxicity", "neurotoxicity", "hypertension"],
+      "recommendation_keywords": ["therapeutic drug monitoring", "tdm", "dose adjustment", "monitor creatinine"],
+      "source": "FDA Label, AST/ASTS Guideline"
+    },
+    {
+      "drug_pair": ["Metformin", "Iodinated Contrast"],
+      "severity": "High",
+      "mechanism_keywords": ["acute kidney injury", "renal function", "contrast-induced nephropathy"],
+      "outcome_keywords": ["lactic acidosis", "aki", "renal failure"],
+      "recommendation_keywords": ["hold metformin", "48 hours", "verify renal function"],
+      "source": "ADA Standards, ACR Contrast Manual"
+    },
+    {
+      "drug_pair": ["Rifampin", "Warfarin"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp2c9 induction", "cyp3a4 induction", "enzyme induction"],
+      "outcome_keywords": ["thrombosis", "subtherapeutic inr", "stroke"],
+      "recommendation_keywords": ["monitor inr frequently", "dose increase", "weekly inr"],
+      "source": "ASH Guideline, Chest Guideline"
+    },
+    {
+      "drug_pair": ["Diltiazem", "Atorvastatin"],
+      "severity": "High",
+      "mechanism_keywords": ["cyp3a4 inhibition", "cyp3a4", "moderate inhibitor"],
+      "outcome_keywords": ["myopathy", "rhabdomyolysis", "elevated ck"],
+      "recommendation_keywords": ["limit dose", "40 mg", "pravastatin"],
+      "source": "FDA Label, AHA Scientific Statement"
+    },
+    {
+      "drug_pair": ["Ketoconazole", "Warfarin"],
+      "severity": "Critical",
+      "mechanism_keywords": ["cyp3a4 inhibition", "cyp2c9 inhibition", "strong inhibitor"],
+      "outcome_keywords": ["bleeding", "supratherapeutic inr", "hemorrhage"],
+      "recommendation_keywords": ["reduce warfarin", "monitor inr", "avoid if possible"],
+      "source": "ASH Guideline, FDA Label"
+    }
+  ],
+  "negative_interactions": [
+    {
+      "drug_pair": ["Paracetamol", "Amlodipine"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Metformin", "Amlodipine"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Loratadine", "Omeprazole"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Fexofenadine", "Metformin"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Atorvastatin", "Levothyroxine"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Cetirizine", "Aspirin"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Pantoprazole", "Metoprolol"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Glipizide", "Atenolol"],
+      "expected_interaction": false,
+      "source": "DrugBank, minor interaction not clinically significant at standard doses"
+    },
+    {
+      "drug_pair": ["Furosemide", "Albuterol"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    },
+    {
+      "drug_pair": ["Ranitidine", "Lisinopril"],
+      "expected_interaction": false,
+      "source": "DrugBank, no known clinically significant interaction"
+    }
+  ]
+}

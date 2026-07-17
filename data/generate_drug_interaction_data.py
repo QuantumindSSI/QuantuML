@@ -465,9 +465,110 @@ def generate_instruction_response(scenario: Dict[str, Any]) -> Dict[str, str]:
     }
 
 
+# ==================== NEGATIVE INTERACTION EXAMPLES ====================
+# Drug pairs with no clinically significant interaction (from DrugBank / clinical practice)
+NEGATIVE_PAIRS = [
+    ("Paracetamol", "Amlodipine"),
+    ("Metformin", "Amlodipine"),
+    ("Loratadine", "Omeprazole"),
+    ("Fexofenadine", "Metformin"),
+    ("Atorvastatin", "Levothyroxine"),
+    ("Cetirizine", "Aspirin"),
+    ("Pantoprazole", "Metoprolol"),
+    ("Glipizide", "Atenolol"),
+    ("Furosemide", "Albuterol"),
+    ("Ranitidine", "Lisinopril"),
+    ("Amoxicillin", "Metformin"),
+    ("Ibuprofen", "Levothyroxine"),
+    ("Diazepam", "Paracetamol"),
+    ("Hydrochlorothiazide", "Cetirizine"),
+    ("Spironolactone", "Fexofenadine"),
+    ("Prednisone", "Levothyroxine"),
+    ("Methadone", "Omeprazole"),
+    ("Tramadol", "Pantoprazole"),
+    ("Gabapentin", "Amlodipine"),
+    ("Alendronate", "Metoprolol"),
+]
+
+
+def generate_negative_interaction(idx: int) -> Dict[str, Any]:
+    """Generate a scenario where two drugs have no clinically significant interaction."""
+    if random.random() < 0.7 and NEGATIVE_PAIRS:
+        drug_a, drug_b = random.choice(NEGATIVE_PAIRS)
+    else:
+        drug_a, drug_b = random.sample(ALL_DRUGS, 2)
+
+    medication_list = [drug_a, drug_b]
+    random.shuffle(medication_list)
+
+    return {
+        "scenario_id": f"DDI-NEG-{idx:06d}",
+        "medication_list": medication_list,
+        "drug_pair": [drug_a, drug_b],
+        "interaction_type": "No clinically significant interaction",
+        "severity": "None",
+        "mechanism": f"No known pharmacokinetic or pharmacodynamic interaction between {drug_a} and {drug_b}.",
+        "predicted_outcomes": ["No adverse effects expected at standard doses"],
+        "recommendations": [
+            "No dose adjustment required",
+            "Monitor patient as part of standard care",
+            "Continue both medications unless new symptoms arise"
+        ],
+        "evidence": ["DrugBank", "FDA Label", "Clinical practice guidelines"],
+        "patient_context": generate_patient_context(),
+        "is_negative": True,
+    }
+
+
+def generate_negative_instruction_response(scenario: Dict[str, Any]) -> Dict[str, str]:
+    """Convert negative scenario into instruction-response pair."""
+    meds = ", ".join(scenario["medication_list"])
+    drug_a, drug_b = scenario["drug_pair"]
+
+    instruction_templates = [
+        f"Analyze the following medication list for potential drug-drug interactions: {meds}. Report any predicted interactions with severity, mechanism, evidence, and clinical recommendations.",
+        f"You are a pharmacovigilance system. Given the patient on {meds}, identify significant drug interactions and provide actionable recommendations.",
+        f"Review this medication regimen ({meds}) for a {scenario['patient_context']}. What interactions should be monitored?",
+        f"Predict drug-drug interactions between the medications in this list: {meds}. Include severity and evidence.",
+        f"Clinical pharmacist review requested for: {meds}. Provide interaction analysis with severity, mechanism, and recommendations.",
+    ]
+    instruction = random.choice(instruction_templates)
+
+    input_text = (
+        f"## Medication List\n" + "\n".join([f"- {m}" for m in scenario["medication_list"]]) + "\n\n"
+        f"## Patient Context\n{scenario['patient_context']}"
+    )
+
+    response = (
+        f"# Drug Interaction Analysis Report\n\n"
+        f"## Assessment\n"
+        f"- **Drug Pair**: {drug_a} + {drug_b}\n"
+        f"- **Interaction Type**: No clinically significant interaction\n"
+        f"- **Severity**: None\n"
+        f"- **Mechanism**: No known pharmacokinetic or pharmacodynamic interaction between {drug_a} and {drug_b}.\n\n"
+        f"## Predicted Outcomes\n"
+        + "\n".join([f"- {o}" for o in scenario["predicted_outcomes"]])
+        + f"\n\n## Clinical Recommendations\n"
+        + "\n".join([f"{i+1}. {r}" for i, r in enumerate(scenario["recommendations"])])
+        + f"\n\n## Evidence\n"
+        + "\n".join([f"- {e}" for e in scenario["evidence"]])
+    )
+
+    return {
+        "instruction": instruction,
+        "input": input_text,
+        "output": response,
+        "scenario_id": scenario["scenario_id"],
+        "drug_pair": scenario["drug_pair"],
+        "severity": "None",
+        "is_negative": True,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate synthetic drug interaction training data")
-    parser.add_argument("--num_scenarios", type=int, default=102000, help="Number of scenarios to generate")
+    parser.add_argument("--num_scenarios", type=int, default=102000, help="Number of scenarios to generate (including negatives)")
+    parser.add_argument("--negative_ratio", type=float, default=0.20, help="Ratio of negative (no-interaction) examples")
     parser.add_argument("--output_dir", type=str, default="./data/raw_ddi", help="Output directory")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     args = parser.parse_args()
@@ -476,18 +577,37 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    num_negative = int(args.num_scenarios * args.negative_ratio)
+    num_positive = args.num_scenarios - num_negative
+
     scenarios = []
     instruction_data = []
 
     print(f"Generating {args.num_scenarios} drug-drug interaction scenarios...")
+    print(f"  Positive (interaction): {num_positive}")
+    print(f"  Negative (no interaction): {num_negative}")
 
-    for i in range(1, args.num_scenarios + 1):
+    # Generate positive cases
+    for i in range(1, num_positive + 1):
         scenario = generate_interaction(i)
         scenarios.append(scenario)
         instruction_data.append(generate_instruction_response(scenario))
-
         if i % 5000 == 0:
-            print(f"  Generated {i}/{args.num_scenarios} scenarios...")
+            print(f"  Generated {i}/{num_positive} positive scenarios...")
+
+    # Generate negative cases
+    for i in range(1, num_negative + 1):
+        scenario = generate_negative_interaction(i)
+        scenarios.append(scenario)
+        instruction_data.append(generate_negative_instruction_response(scenario))
+        if i % 5000 == 0:
+            print(f"  Generated {i}/{num_negative} negative scenarios...")
+
+    # Shuffle combined dataset
+    combined = list(zip(scenarios, instruction_data))
+    random.shuffle(combined)
+    scenarios = [c[0] for c in combined]
+    instruction_data = [c[1] for c in combined]
 
     # Save raw scenarios
     raw_path = output_dir / "scenarios.json"
@@ -517,7 +637,7 @@ def main():
         print(f"Saved {split_name} split ({len(data)} samples) to {path}")
 
     print("\nDataset generation complete!")
-    print(f"Total scenarios: {len(scenarios)}")
+    print(f"Total scenarios: {len(scenarios)} (positive: {num_positive}, negative: {num_negative})")
     print(f"Total instruction pairs: {len(instruction_data)}")
 
 

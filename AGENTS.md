@@ -41,6 +41,9 @@ python src/evaluate_pqc.py --config ./configs/config_pqc_migration.yaml --model_
 python src/evaluate_crypto.py --config ./configs/config_crypto_analyzer_quick.yaml --model_path ./outputs/models_crypto_quick/checkpoint-final
 
 python src/evaluate_ddi.py --config ./configs/config_ddi.yaml --model_path ./outputs/models_ddi_quick/checkpoint-final
+
+# Clinical validation against FDA/DrugBank ground truth
+python src/validate_clinical.py --config ./configs/config_ddi.yaml --model_path ./outputs/models_ddi_quick/checkpoint-final --ground_truth ./data/clinical_ground_truth.json
 ```
 
 ### Inference

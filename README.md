@@ -164,6 +164,17 @@ Uses same base architecture with hybrid dataset. See [docs/BENCHMARKS.md](docs/B
 | Eval Loss | 0.280 | < 0.5 | Pass |
 | Test Loss | 0.308 | < 0.5 | Pass |
 
+**Clinical Validation (POC)**: See [docs/CLINICAL_VALIDATION.md](docs/CLINICAL_VALIDATION.md)
+
+| Metric | POC Score | Target | Status |
+|--------|-----------|--------|--------|
+| Sensitivity | **100%** | > 95% | Pass |
+| Specificity | **0%** | > 85% | **FAIL** |
+| Severity Accuracy | **26.7%** | > 70% | **FAIL** |
+| Overall Clinical Score | **53.8%** | > 75% | **FAIL** |
+
+> **Not clinically ready.** The model hallucinates interactions for every safe drug pair (100% false positive rate) because the original training data contained zero negative examples. Remediation is documented in `docs/CLINICAL_VALIDATION.md`.
+
 ---
 
 ## Deployment Targets
