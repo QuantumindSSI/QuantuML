@@ -121,7 +121,7 @@ def main():
         warmup_ratio=train_cfg["warmup_ratio"],
         lr_scheduler_type=train_cfg["lr_scheduler_type"],
         logging_steps=train_cfg["logging_steps"],
-        eval_strategy=train_cfg["eval_strategy"],
+        evaluation_strategy=train_cfg.get("eval_strategy", train_cfg.get("evaluation_strategy", "steps")),
         eval_steps=train_cfg["eval_steps"],
         save_strategy=train_cfg["save_strategy"],
         save_steps=train_cfg["save_steps"],
@@ -154,7 +154,7 @@ def main():
         train_dataset=datasets["train"],
         eval_dataset=datasets["eval"],
         data_collator=data_collator,
-        processing_class=tokenizer,
+        tokenizer=tokenizer,
         callbacks=callbacks,
     )
 

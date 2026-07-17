@@ -32,8 +32,14 @@ pip install -r requirements.txt
 # 2. Download base model
 huggingface-cli download Qwen/Qwen2-0.5B-Instruct --local-dir ./base_model
 
-# 3. Pick a model and follow its pipeline (see docs/MODELS.md)
+# 3. GPU training (see docs/PRODUCTION_READINESS.md)
+./scripts/run_training_gpu_all.sh
+
+# 4. Production inference with confidence scoring
+python src/inference_production.py --model ddi --input "Warfarin, Aspirin"
 ```
+
+> **Note:** CPU training is too slow for production (2min/step). GPU is required for full-epoch training. See [docs/PRODUCTION_READINESS.md](docs/PRODUCTION_READINESS.md).
 
 ---
 

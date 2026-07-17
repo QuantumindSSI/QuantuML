@@ -22,16 +22,15 @@ source venv/bin/activate
 huggingface-cli download Qwen/Qwen2-0.5B-Instruct --local-dir ./base_model
 ```
 
-### Training Pipeline
+### Training Pipeline (GPU Required for Production)
 ```bash
-# PQC Migration Advisor
-./scripts/run_training_pqc.sh
+# All models at once (GPU, 2 epochs, balanced data)
+./scripts/run_training_gpu_all.sh
 
-# Crypto Analyzer
-./scripts/run_training_crypto.sh
-
-# Drug Interaction Predictor
-./scripts/run_training_ddi.sh
+# Individual models
+python src/train_lora.py --config ./configs/config_ddi_v2.yaml --output_dir ./outputs/models_ddi_v2
+python src/train_lora.py --config ./configs/config_crypto_v2.yaml --output_dir ./outputs/models_crypto_v2
+python src/train_lora.py --config ./configs/config_pqc_v2.yaml --output_dir ./outputs/models_pqc_v2
 ```
 
 ### Evaluation

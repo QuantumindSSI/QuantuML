@@ -245,9 +245,95 @@ def generate_instruction_response(scenario: Dict[str, Any]) -> Dict[str, str]:
     }
 
 
+def generate_already_migrated_scenario(idx: int) -> Dict[str, Any]:
+    """Generate a scenario where the organization has already completed PQC migration."""
+    industry = random.choice(INDUSTRIES)
+    system = random.choice(SYSTEM_TYPES)
+    compliance = random.sample(COMPLIANCE_FRAMEWORKS, k=random.randint(1, 3))
+
+    migrated_algorithms = {
+        "key_encapsulation": random.choice(["ML-KEM-768", "ML-KEM-1024", "X25519Kyber768"]),
+        "digital_signature": random.choice(["ML-DSA-65", "ML-DSA-87", "Ed25519+ML-DSA-65"]),
+        "symmetric": random.choice(["AES-256-GCM", "ChaCha20-Poly1305"]),
+        "hash": random.choice(["SHA-384", "SHA-512", "SHA3-256"]),
+    }
+
+    return {
+        "scenario_id": f"PQC-MIG-SAFE-{idx:05d}",
+        "industry": industry,
+        "system_type": system,
+        "risk_level": "Low",
+        "compliance_frameworks": compliance,
+        "current_crypto_stack": migrated_algorithms,
+        "target_pqc_schemes": migrated_algorithms,
+        "migration_status": "Completed",
+        "estimated_timeline_months": 0,
+        "budget_estimate_usd": 0,
+        "migration_steps": [
+            {"phase": "Completed", "title": "Migration already completed", "description": f"The {system} has been fully migrated to post-quantum algorithms.",
+             "tools": ["N/A"], "deliverables": ["Migration completion report", "Validation certificates"],
+             "estimated_effort_hours": 0, "owner": "Migration Team"}
+        ],
+        "rollback_plan": ["Maintain dual-stack support during transition period", "Keep classical snapshots in secure vault"],
+        "testing_strategy": {
+            "unit_tests": ["Algorithm correctness (KAT vectors)"],
+            "integration_tests": ["End-to-end handshake"],
+            "performance_tests": ["Handshake latency (p50/p99)"],
+            "compliance_tests": ["FIPS 140-3 validation"],
+        },
+        "is_migrated": True,
+    }
+
+
+def generate_migrated_instruction_response(scenario: Dict[str, Any]) -> Dict[str, str]:
+    current = json.dumps(scenario["current_crypto_stack"], indent=2)
+
+    instruction = (
+        f"You are a Post-Quantum Cryptography Migration Advisor. "
+        f"An organization in the {scenario['industry']} sector needs to migrate their "
+        f"{scenario['system_type']} from classical cryptography to quantum-safe algorithms. "
+        f"The risk level is {scenario['risk_level']} and they must comply with {', '.join(scenario['compliance_frameworks'])}.\n\n"
+        f"Current cryptographic stack:\n{current}\n\n"
+        f"Provide a step-by-step migration plan including tools, deliverables, effort estimates, and responsible teams."
+    )
+
+    response = (
+        f"# Post-Quantum Migration Plan for {scenario['system_type']}\n\n"
+        f"## Overview\n"
+        f"- **Industry**: {scenario['industry']}\n"
+        f"- **Risk Level**: {scenario['risk_level']}\n"
+        f"- **Compliance**: {', '.join(scenario['compliance_frameworks'])}\n"
+        f"- **Migration Status**: Already Completed\n\n"
+        f"## Current PQC Stack\n{current}\n\n"
+        f"## Assessment\n"
+        f"This deployment uses quantum-resistant algorithms aligned with NIST FIPS 203/204/205. "
+        f"No migration is required. Recommended actions:\n"
+        f"1. Continue monitoring NIST standardization for new parameter sets\n"
+        f"2. Maintain crypto-agility in configuration\n"
+        f"3. Schedule periodic security audits\n"
+        f"4. Ensure backward compatibility during algorithm transitions\n\n"
+        f"## Compliance Status\n"
+        f"- NIST FIPS 203 (ML-KEM): Compliant\n"
+        f"- NIST FIPS 204 (ML-DSA): Compliant\n"
+        f"- NSA CNSA 2.0: Compliant (where applicable)\n"
+    )
+
+    return {
+        "instruction": instruction,
+        "input": "",
+        "output": response,
+        "scenario_id": scenario["scenario_id"],
+        "industry": scenario["industry"],
+        "system_type": scenario["system_type"],
+        "risk_level": scenario["risk_level"],
+        "is_migrated": True,
+    }
+
+
 def main():
     parser = argparse.ArgumentParser(description="Generate synthetic PQC migration training data")
     parser.add_argument("--num_scenarios", type=int, default=5500, help="Number of scenarios to generate")
+    parser.add_argument("--negative_ratio", type=float, default=0.20, help="Ratio of already-migrated scenarios")
     parser.add_argument("--output_dir", type=str, default="./raw", help="Output directory")
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
     args = parser.parse_args()
@@ -256,18 +342,34 @@ def main():
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
+    num_migrated = int(args.num_scenarios * args.negative_ratio)
+    num_migration = args.num_scenarios - num_migrated
+
     scenarios = []
     instruction_data = []
 
     print(f"Generating {args.num_scenarios} synthetic migration scenarios...")
+    print(f"  Migration needed: {num_migration} | Already migrated: {num_migrated}")
 
-    for i in range(1, args.num_scenarios + 1):
+    for i in range(1, num_migration + 1):
         scenario = generate_migration_scenario(i)
         scenarios.append(scenario)
         instruction_data.append(generate_instruction_response(scenario))
-
         if i % 500 == 0:
-            print(f"  Generated {i}/{args.num_scenarios} scenarios...")
+            print(f"  Generated {i}/{num_migration} migration scenarios...")
+
+    for i in range(1, num_migrated + 1):
+        scenario = generate_already_migrated_scenario(i)
+        scenarios.append(scenario)
+        instruction_data.append(generate_migrated_instruction_response(scenario))
+        if i % 500 == 0:
+            print(f"  Generated {i}/{num_migrated} migrated scenarios...")
+
+    # Shuffle
+    combined = list(zip(scenarios, instruction_data))
+    random.shuffle(combined)
+    scenarios = [c[0] for c in combined]
+    instruction_data = [c[1] for c in combined]
 
     # Save raw scenarios
     raw_path = output_dir / "scenarios.json"
@@ -283,7 +385,7 @@ def main():
     print(f"Saved instruction data to {instruct_path}")
 
     print("\nDataset generation complete!")
-    print(f"Total scenarios: {len(scenarios)}")
+    print(f"Total scenarios: {len(scenarios)} (migration: {num_migration}, migrated: {num_migrated})")
     print(f"Total instruction pairs: {len(instruction_data)}")
 
 
