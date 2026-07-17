@@ -6,13 +6,14 @@ All datasets are publicly available on [Kaggle](https://www.kaggle.com/quantumin
 
 ## Dataset Registry
 
-| # | Dataset | Kaggle Link | Size | Format |
-|---|---------|-------------|------|--------|
-| 1 | Synthetic Drug-Drug Interaction | [Link](https://www.kaggle.com/datasets/quantumind/synthetic-drug-drug-interaction-dataset) | 102,000 | JSONL |
-| 2 | Quantum Vulnerability Crypto Protocol | [Link](https://www.kaggle.com/datasets/quantumind/quantum-vulnerability-crypto-protocol-dataset) | 10,500 | JSONL |
-| 3 | Post-Quantum Key Migration Hybrid | [Link](https://www.kaggle.com/datasets/quantumind/post-quantum-key-migration-hybrid-dataset) | 5,317 | JSONL |
-| 4 | Post-Quantum Key Migration Synthetic | [Link](https://www.kaggle.com/datasets/quantumind/post-quantum-key-migration-synthetic-dataset) | 5,300 | JSONL |
-| 5 | PQC Real Curated Instructions | [Link](https://www.kaggle.com/datasets/quantumind/pqc-real-curated-instructions-dataset) | 18 | JSONL |
+| # | Dataset | Kaggle Link | Size | Format | Notes |
+|---|---------|-------------|------|--------|-------|
+| 1 | Synthetic Drug-Drug Interaction | [Link](https://www.kaggle.com/datasets/quantumind/synthetic-drug-drug-interaction-dataset) | 102,000 | JSONL | v1: positive only |
+| 1b | **Drug Interaction Dataset with Negatives** | [Link](https://www.kaggle.com/datasets/quantumind/drug-interaction-dataset-with-negatives) | 25,000 | JSONL | **v2: includes 5,000 negative (no-interaction) examples** |
+| 2 | Quantum Vulnerability Crypto Protocol | [Link](https://www.kaggle.com/datasets/quantumind/quantum-vulnerability-crypto-protocol-dataset) | 10,500 | JSONL | Positive only |
+| 3 | Post-Quantum Key Migration Hybrid | [Link](https://www.kaggle.com/datasets/quantumind/post-quantum-key-migration-hybrid-dataset) | 5,317 | JSONL | Real + synthetic |
+| 4 | Post-Quantum Key Migration Synthetic | [Link](https://www.kaggle.com/datasets/quantumind/post-quantum-key-migration-synthetic-dataset) | 5,300 | JSONL | Synthetic only |
+| 5 | PQC Real Curated Instructions | [Link](https://www.kaggle.com/datasets/quantumind/pqc-real-curated-instructions-dataset) | 18 | JSONL | Manually curated |
 
 ---
 

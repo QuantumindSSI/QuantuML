@@ -1,0 +1,148 @@
+{
+  "description": "Real-world cryptographic protocol validation set. Sources: CVE database, NIST PQC standards, known attack histories, vendor security advisories.",
+  "vulnerable_cases": [
+    {
+      "protocol": "TLS 1.0",
+      "code_snippet": "SSL_CTX_set_min_proto_version(ctx, TLS1_VERSION);\nSSL_CTX_set_cipher_list(ctx, 'RC4-SHA:DES-CBC3-SHA');",
+      "algorithm": "RC4",
+      "expected_vulnerability": "Deprecated Protocol with Weak Cipher",
+      "expected_attack_vector": "RC4 biases enable plaintext recovery",
+      "expected_severity": "Critical",
+      "nist_reference": "NIST SP 800-52 Rev. 2 (prohibit RC4)",
+      "source": "CVE-2013-2566, RFC 7465"
+    },
+    {
+      "protocol": "TLS 1.2",
+      "code_snippet": "context.set_ciphers('RSA-AES128-SHA');\n// No forward secrecy",
+      "algorithm": "RSA-2048",
+      "expected_vulnerability": "Shor's Algorithm Vulnerable / No Forward Secrecy",
+      "expected_attack_vector": "Harvest Now, Decrypt Later (HNDL)",
+      "expected_severity": "Critical",
+      "nist_reference": "NIST SP 800-208, NSA CNSA 2.0",
+      "source": "NIST PQC Migration Guidelines"
+    },
+    {
+      "protocol": "OpenVPN",
+      "code_snippet": "cipher AES-256-CBC\nauth SHA1\n tls-version-min 1.0",
+      "algorithm": "AES-256-CBC, SHA-1",
+      "expected_vulnerability": "Deprecated Protocol / Weak Hash",
+      "expected_attack_vector": "SHA-1 collision attacks, Grover's algorithm on AES-256",
+      "expected_severity": "High",
+      "nist_reference": "NIST SP 800-131A Rev. 2 (deprecate SHA-1)",
+      "source": "NIST Transition Plan"
+    },
+    {
+      "protocol": "SSH (OpenSSH)",
+      "code_snippet": "ssh -o KexAlgorithms=diffie-hellman-group1-sha1 user@host",
+      "algorithm": "DH-1024, SHA-1",
+      "expected_vulnerability": "Insufficient Key Size / Deprecated Protocol",
+      "expected_attack_vector": "Logjam attack (weak DH), Shor's DLP",
+      "expected_severity": "Critical",
+      "nist_reference": "NIST SP 800-57 (minimum DH 2048)",
+      "source": "CVE-2015-4000 (Logjam)"
+    },
+    {
+      "protocol": "IPsec IKEv1",
+      "code_snippet": "ike=aes128-sha1-modp1024!\nphase2=aes128-sha1!",
+      "algorithm": "MODP-1024, SHA-1",
+      "expected_vulnerability": "Insufficient Key Size",
+      "expected_attack_vector": "Weak DH parameters broken by number field sieve",
+      "expected_severity": "Critical",
+      "nist_reference": "NIST SP 800-57 Part 1 Rev. 5",
+      "source": "RFC 8247 (deprecate weak groups)"
+    },
+    {
+      "protocol": "WPA2-Personal",
+      "code_snippet": "wpa_passphrase=Password123\nwpa_key_mgmt=WPA-PSK",
+      "algorithm": "PBKDF2-SHA1, AES-CCMP",
+      "expected_vulnerability": "Weak Randomness / Offline Brute Force",
+      "expected_attack_vector": "KRACK attack (key reinstallation), dictionary attacks",
+      "expected_severity": "High",
+      "nist_reference": "NIST SP 800-48 Rev. 2",
+      "source": "CVE-2017-13077 (KRACK)"
+    },
+    {
+      "protocol": "Bitcoin P2P",
+      "code_snippet": "secp256k1.Sign(priv_key, tx_hash)\n// ECDSA signatures",
+      "algorithm": "ECDSA secp256k1",
+      "expected_vulnerability": "Shor's Algorithm Vulnerable",
+      "expected_attack_vector": "Shor's DLP breaks secp256k1, enabling private key recovery",
+      "expected_severity": "Critical",
+      "nist_reference": "FIPS 204 (ML-DSA) for post-quantum signatures",
+      "source": "Academic: Breaking Bitcoin with Quantum Computers"
+    },
+    {
+      "protocol": "S/MIME Email",
+      "code_snippet": "openssl smime -encrypt -aes128 -in message.txt cert.pem",
+      "algorithm": "AES-128-CBC, RSA-2048",
+      "expected_vulnerability": "Grover's Algorithm Amplified / Shor's Vulnerable",
+      "expected_attack_vector": "HNDL on RSA-encrypted AES key; Grover reduces AES-128 to 64-bit",
+      "expected_severity": "High",
+      "nist_reference": "NIST SP 800-208 (use AES-256 or PQC)",
+      "source": "ETSI White Paper on PQC for Email"
+    },
+    {
+      "protocol": "JSON Web Token",
+      "code_snippet": "jwt.encode(payload, key, algorithm='RS256')",
+      "algorithm": "RSA-2048 + SHA-256",
+      "expected_vulnerability": "Shor's Algorithm Vulnerable",
+      "expected_attack_vector": "Quantum attacker factors RSA-2048 to forge tokens",
+      "expected_severity": "High",
+      "nist_reference": "FIPS 204 (ML-DSA)",
+      "source": "IETF draft on PQC JOSE"
+    },
+    {
+      "protocol": "DNSSEC",
+      "code_snippet": "algorithm 8 (RSASHA256)\nkey_length 2048",
+      "algorithm": "RSA-2048 + SHA-256",
+      "expected_vulnerability": "Shor's Algorithm Vulnerable",
+      "expected_attack_vector": "Forgery of DNSSEC signatures via Shor's factoring",
+      "expected_severity": "High",
+      "nist_reference": "NIST IR 8547 (DNSSEC PQC roadmap)",
+      "source": "IETF RFC 8624"
+    },
+    {
+      "protocol": "MQTT TLS",
+      "code_snippet": "mqtt_client.tls_set(certfile='client.crt', keyfile='client.key', tls_version=ssl.PROTOCOL_TLSv1_1)",
+      "algorithm": "TLS 1.1, RSA",
+      "expected_vulnerability": "Deprecated Protocol",
+      "expected_attack_vector": "BEAST attack on TLS 1.1 CBC ciphers",
+      "expected_severity": "High",
+      "nist_reference": "NIST SP 800-52 Rev. 2 (require TLS 1.2+)",
+      "source": "CVE-2011-3389 (BEAST)"
+    },
+    {
+      "protocol": "Bluetooth LE",
+      "code_snippet": "pairing_method = JustWorks\n// No MITM protection",
+      "algorithm": "ECDH P-256, AES-CCM",
+      "expected_vulnerability": "Quantum-Enabled Downgrade / Weak Pairing",
+      "expected_attack_vector": "KNOB attack forces weak entropy; quantum breaks ECDH",
+      "expected_severity": "High",
+      "nist_reference": "NIST SP 800-121 Rev. 2",
+      "source": "CVE-2019-9506 (KNOB)"
+    }
+  ],
+  "non_vulnerable_cases": [
+    {
+      "protocol": "TLS 1.3",
+      "code_snippet": "SSL_CTX_set_min_proto_version(ctx, TLS1_3_VERSION);\nSSL_CTX_set1_groups_list(ctx, 'X25519Kyber768:X25519');",
+      "algorithm": "X25519Kyber768, AES-256-GCM, SHA-384",
+      "expected_vulnerability": false,
+      "source": "NIST-approved hybrid PQC configuration"
+    },
+    {
+      "protocol": "WireGuard",
+      "code_snippet": "PrivateKey = ...\nPeer.PublicKey = ...\nPresharedKey = optional",
+      "algorithm": "Curve25519, ChaCha20-Poly1305, BLAKE2s",
+      "expected_vulnerability": false,
+      "source": "Modern AEAD construction, crypto-agile for future PQC"
+    },
+    {
+      "protocol": "Signal Protocol",
+      "code_snippet": "X3DH + Double Ratchet with Curve25519",
+      "algorithm": "Curve25519, AES-256-GCM, SHA-256",
+      "expected_vulnerability": false,
+      "source": "Forward secrecy and future PQC upgrade path defined"
+    }
+  ]
+}

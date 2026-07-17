@@ -220,9 +220,16 @@ curl -X POST http://localhost:8000/predict \
 
 All training datasets are publicly available on Kaggle for reproducibility:
 
-1. **[Synthetic Drug-Drug Interaction Dataset](https://www.kaggle.com/datasets/quantumind/synthetic-drug-drug-interaction-dataset)**
-   - 102,000 synthetic DDI examples
+### DDI Datasets
+
+1. **[Synthetic Drug-Drug Interaction Dataset](https://www.kaggle.com/datasets/quantumind/synthetic-drug-drug-interaction-dataset)** (v1)
+   - 102,000 synthetic DDI examples (positive only)
    - Train: 86,700 | Eval: 10,200 | Test: 5,100
+
+1b. **[Drug Interaction Dataset with Negatives](https://www.kaggle.com/datasets/quantumind/drug-interaction-dataset-with-negatives)** (v2)
+   - 25,000 synthetic DDI examples with **20% negative (no-interaction) cases**
+   - Train: 21,250 | Eval: 2,500 | Test: 1,250
+   - Includes drug pairs with **no clinically significant interaction**
 
 2. **[Quantum Vulnerability Cryptographic Protocol Dataset](https://www.kaggle.com/datasets/quantumind/quantum-vulnerability-crypto-protocol-dataset)**
    - 10,500 synthetic crypto vulnerability analyses
@@ -287,6 +294,8 @@ This exports:
 - **[docs/BENCHMARKS.md](docs/BENCHMARKS.md)** - Full benchmark results, latency measurements, and memory profiles
 - **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System architecture, data flow, and deployment diagrams
 - **[docs/DATASETS.md](docs/DATASETS.md)** - Dataset specifications, generation methodology, and schema documentation
+- **[docs/CLINICAL_VALIDATION.md](docs/CLINICAL_VALIDATION.md)** - DDI clinical accuracy validation against FDA/DrugBank
+- **[docs/REAL_WORLD_VALIDATION.md](docs/REAL_WORLD_VALIDATION.md)** - Cross-model real-world validation (CVEs, NIST, guidelines)
 
 ---
 

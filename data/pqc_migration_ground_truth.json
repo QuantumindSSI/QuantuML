@@ -1,0 +1,64 @@
+{
+  "description": "Real-world PQC migration validation set. Sources: NIST SP 800-208, NIST IR 8547, NSA CNSA 2.0, vendor migration guides (Thales, Utimaco), ONTARGET trial, major enterprise deployments.",
+  "migration_cases": [
+    {
+      "industry": "Financial Services",
+      "system": "TLS/SSL Infrastructure",
+      "current_stack": "RSA-2048, ECDSA P-256, TLS 1.2",
+      "expected_phases": ["Discovery", "Assessment", "Planning", "Implementation", "Validation", "Deployment"],
+      "expected_algorithms": ["ML-KEM", "ML-DSA", "hybrid", "X25519Kyber768"],
+      "expected_tools": ["OpenSSL", "HSM", "scanner"],
+      "expected_compliance": ["FIPS", "NIST", "PCI DSS"],
+      "expected_timeline_months": { "min": 6, "max": 18 },
+      "source": "NIST IR 8547, PCI DSS 4.0"
+    },
+    {
+      "industry": "Healthcare",
+      "system": "PKI Certificate Authority",
+      "current_stack": "RSA-4096, SHA-256, HSM-backed",
+      "expected_phases": ["Discovery", "Assessment", "Planning", "Implementation", "Validation", "Deployment"],
+      "expected_algorithms": ["ML-DSA-65", "ML-DSA-87", "SLH-DSA", "hybrid"],
+      "expected_tools": ["HSM", "ACVP", "FIPS Test Harness"],
+      "expected_compliance": ["FIPS 140-3", "HIPAA", "NIST"],
+      "expected_timeline_months": { "min": 12, "max": 24 },
+      "source": "NIST SP 800-208, HIPAA Security Rule"
+    },
+    {
+      "industry": "Government",
+      "system": "VPN Gateway",
+      "current_stack": "IPsec IKEv2, ECDH P-384, AES-256-GCM",
+      "expected_phases": ["Discovery", "Assessment", "Planning", "Implementation", "Validation", "Deployment"],
+      "expected_algorithms": ["ML-KEM-768", "ML-DSA-65", "NSA CNSA 2.0"],
+      "expected_tools": ["StrongSwan", "WireGuard", "protocol analyzer"],
+      "expected_compliance": ["NSA CNSA 2.0", "FISMA", "NIST"],
+      "expected_timeline_months": { "min": 3, "max": 12 },
+      "source": "NSA CNSA 2.0 Memorandum, OMB M-23-02"
+    },
+    {
+      "industry": "Cloud Service Provider",
+      "system": "API Authentication (JWT)",
+      "current_stack": "ECDSA P-256, RS256, TLS 1.3",
+      "expected_phases": ["Discovery", "Assessment", "Planning", "Implementation", "Validation", "Deployment"],
+      "expected_algorithms": ["ML-DSA-44", "ML-DSA-65", "hybrid JWT"],
+      "expected_tools": ["CI/CD", "key rotation service", "canary deployment"],
+      "expected_compliance": ["SOC 2", "ISO 27001", "NIST"],
+      "expected_timeline_months": { "min": 6, "max": 15 },
+      "source": "Cloud Security Alliance, NIST IR 8547"
+    },
+    {
+      "industry": "Defense",
+      "system": "Secure Messaging",
+      "current_stack": "AES-256-GCM, ECDH P-384, Signal Protocol",
+      "expected_phases": ["Discovery", "Assessment", "Planning", "Implementation", "Validation", "Deployment"],
+      "expected_algorithms": ["ML-KEM-1024", "ML-DSA-87", "SLH-DSA"],
+      "expected_tools": [" certified HSM", "Type 1 encryption", "NSA review"],
+      "expected_compliance": ["NSA CNSA 2.0", "Common Criteria", "FIPS 140-3 Level 4"],
+      "expected_timeline_months": { "min": 18, "max": 36 },
+      "source": "NSA CNSA 2.0, DoD CIO PQC Roadmap"
+    }
+  ],
+  "quality_criteria": {
+    "required_sections": ["phases", "algorithms", "tools", "timeline", "compliance", "rollback", "testing", "budget"],
+    "nist_references": ["FIPS 203", "FIPS 204", "FIPS 205", "NIST SP 800-208", "NIST IR 8547", "NSA CNSA 2.0"]
+  }
+}

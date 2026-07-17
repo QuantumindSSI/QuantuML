@@ -1,0 +1,100 @@
+{
+  "model_path": "./outputs/models_poc/checkpoint-final",
+  "migration_cases": [
+    {
+      "industry": "Financial Services",
+      "system": "TLS/SSL Infrastructure",
+      "checks": {
+        "has_phases": false,
+        "has_algorithms": false,
+        "has_tools": false,
+        "has_compliance": false,
+        "has_timeline": true,
+        "has_rollback": false,
+        "has_testing": true,
+        "has_budget": true
+      },
+      "score": 3,
+      "max_score": 8,
+      "accuracy_pct": 37.5,
+      "source": "NIST IR 8547, PCI DSS 4.0",
+      "generated_text": "The plan should be comprehensive enough to cover all necessary aspects of quantum security including key management, encryption, signature verification, etc.\nStep 1: Assess Quantum Security Requirements\nThe first step is to identify the specific quantum security requirements for your organization's infrastructure. This includes understanding the potential threats posed by quantum computers and how they can impact the security of your current systems. Use existing knowledge and resources to gather information on quantum computing, quantum attacks, and secure communication protocols.\n\nStep 2: Determine Quantum Key Sizes\nNext, determine the size of your quantum key that you will need to use. Depending on the level of quantum security required, you may choose different sizes of quantum keys or even require multiple quantum keys per system.\n\nStep 3: Choose Quantum Key Algorithms\nSelect the quantum key algorithm(s) that best fit the quantum security requirements. Common choices include:\n\n- One-time pad (OTP)\n- Elliptic Curve Cryptography (ECC)\n\nStep 4: Secure Communication Protocols\nSecure the communication protocols used for authentication, encryption, and signatures. Consider using asymmetric cryptography like RSA or ECC with additional protocols such as Diffie-Hellman or Shamir's Secret Sharing to ensure both confidentiality and integrity.\n\nStep 5: Implement Quantum-Safe Encryption\nImplement quantum-safe encryption techniques, such as Quantum-resistant Hashing Functions (QRHFs), Quantum-resistant Data Encryption Standard (QRDS), or Quantum-resistant Authentication (QRAs). These techniques provide better protection against quantum computers and their attacks.\n\nStep 6: Perform Quantum Key Distribution (QKD)\nPerform QKD using a trusted QKD source or implement an alternative method if not feasible due to technical constraints.\n\nStep 7: Test Quantum Key Management Systems (QKMSS)\nTest the quantum key management systems (QKMSS) to ensure they meet the required security standards and to verify that the quantum key generation process is efficient and secure.\n\nStep 8: Implement Quantum Safe Cryptography (QSAC)\nImplement QSAC by designing and implementing quantum-safe cryptographic protocols to protect sensitive data.\n\nStep 9: Monitor and Update Quantum Key Management Systems (QKMS)\nMonitor the performance of QKMS and update it based on new insights or changes in quantum security requirements.\n\nStep 10: Conduct Quality Assurance (QA)\nConduct quality assurance testing to ensure that the proposed quantum safe cryptographic solutions work correctly under different conditions and scenarios.\n\nDeliverables:\n- A detailed roadmap outlining the entire quantum security process, including timelines, milestones, and key steps.\n- A list of tools and software packages required for each stage of the process, including hardware/software details.\n- A list of deliverables, including test results, documentation, and any other relevant materials.\n- A comprehensive risk assessment report detailing the identified risks and mitigation strategies.\n\nEffort Estimates:\n- Time estimate: 1 year to complete the full quantum security process.\n- Cost estimate: Based on the total cost of the project, which includes hardware and software costs, consulting fees"
+    },
+    {
+      "industry": "Healthcare",
+      "system": "PKI Certificate Authority",
+      "checks": {
+        "has_phases": false,
+        "has_algorithms": false,
+        "has_tools": false,
+        "has_compliance": false,
+        "has_timeline": false,
+        "has_rollback": false,
+        "has_testing": true,
+        "has_budget": false
+      },
+      "score": 1,
+      "max_score": 8,
+      "accuracy_pct": 12.5,
+      "source": "NIST SP 800-208, HIPAA Security Rule",
+      "generated_text": "Include documentation for all steps.\nTo summarize your knowledge on Post-quantum cryptography, you have the following skills:\n\n1. Knowledge of Quantum Computing (including Quantum Mechanics) and its applications\n2. Familiarity with quantum-safe cryptographic methods such as Quantum Key Distribution (QKD)\n3. Experience working with Quantum Key Distribution (QKD) infrastructure\n\nYour task is to provide a detailed plan that outlines the steps required to migrate your PKI Certificate Authority (CA) from Classical cryptography to Quantum-safe algorithms. The plan should include the selection of suitable tools and tools' documentation. Additionally, it should detail the process of implementing QKD infrastructure, including hardware requirements and software integration.\n\nFor example:\nPlan: \n\n1. Identify and evaluate existing infrastructure. \n2. Select suitable tools for implementation.\n3. Implement QKD infrastructure using chosen tools.\n4. Perform quality assurance checks and validate the system's functionality.\n5. Test the system thoroughly to ensure its robustness against potential attacks.\n6. Deploy the system and monitor its performance regularly.\n\nRemember, this plan should be designed considering the specific needs of the healthcare organization and the necessary resources available. It should also be flexible enough to adapt to any future changes or improvements in the industry standards.\n\nPlease note that you will need to gather additional information about the current infrastructure and the needs of the healthcare organization before proceeding with the migration. You can find more information about these topics by consulting relevant sources such as industry reports, government regulations, and technical literature.\n\nThe goal is to ensure that the CA can continue to function effectively while transitioning to quantum-safe cryptography. The plan should outline the key challenges and risks associated with the transition, and the measures taken to mitigate them. Finally, you should document the results of the migration and the effectiveness of the new system in meeting the healthcare organization's security requirements.\n\nPlease follow these guidelines when preparing your plan:\n- Start with an overview of the current infrastructure and the needs of the healthcare organization.\n- Clearly identify the key components of the new system and describe how they will be integrated into the old system.\n- Discuss the challenges and risks associated with the transition and the measures taken to mitigate them.\n- Outline the plan for implementing QKD infrastructure using chosen tools.\n- Document the results of the migration and the effectiveness of the new system in meeting the healthcare organization's security requirements.\n- Provide any recommendations or best practices for future systems transitions in the field of Post-quantum cryptography.\n\nIn summary, this plan serves as a guide for anyone planning to migrate their PKI CA from classical cryptography to quantum-safe algorithms. The specific details and implementation details may vary depending on the specifics of the healthcare organization's needs and technology stack. However, the overall approach outlined here should help organizations make informed decisions about the transition and ensure that their PKI remains secure and reliable throughout the process.\n\nGreat! I'm ready. Please proceed with the plan."
+    },
+    {
+      "industry": "Government",
+      "system": "VPN Gateway",
+      "checks": {
+        "has_phases": false,
+        "has_algorithms": false,
+        "has_tools": false,
+        "has_compliance": true,
+        "has_timeline": false,
+        "has_rollback": false,
+        "has_testing": true,
+        "has_budget": true
+      },
+      "score": 3,
+      "max_score": 8,
+      "accuracy_pct": 37.5,
+      "source": "NSA CNSA 2.0 Memorandum, OMB M-23-02",
+      "generated_text": "Ensure that all steps are explained with technical terms and use case scenarios for better understanding.\nStep 1: Plan\nBefore starting the migration, I need to conduct an extensive analysis of the current security model of your organization. This includes analyzing the existing protocols and their weaknesses. Additionally, I will identify the current cryptographic keys used by your organization and determine how they can be securely transferred and used during the migration process.\r\n\r\nStep 2: Tools\r\nThe first step is to gather all the necessary tools and resources required for the migration project. This may include software development tools like C# or Python, cloud-based services like AWS or Azure, and hardware components like routers and switches.\r\n\r\nTools:\r\n- A reliable cloud service provider like AWS or Azure to host the migration environment.\r\n- A trusted certificate authority (CA) for the new cryptographic key management system.\r\n- A secure communication protocol like HTTPS for secure data transmission.\r\n- A robust database management system like MySQL or PostgreSQL to store historical data.\r\n- A secure network infrastructure such as a high-performance router or switch to ensure seamless data transfer.\r\n\r\nStep 3: Deliverables\r\nThe delivery of the migration plan should include detailed plans for the entire project, including timelines, milestones, and resource requirements.\r\n\r\nDeliverables:\r\n- Technical specifications for the new cryptographic key management system.\r\n- Detailed plan for each step of the migration process.\r\n- Timeline for each phase of the migration.\r\n- Milestones for each phase of the migration.\r\n\r\nStep 4: Effort Estimates\r\nI estimate that the total effort required for this project will range between $50,000 and $100,000.\r\n\r\nEffort Estimate:\r\n\r\n- Planning phase: $10,000\r\n- Design phase: $5,000\r\n- Development phase: $15,000\r\n- Testing phase: $20,000\r\n- Deployment phase: $15,000\r\n\r\nOverall effort estimate:\r\n\r\nTotal cost: $75,000\r\n\r\nResponsibility Teams:\r\n- The project team consisting of the following members: Project Manager, Security Analyst, Data Scientist, Network Engineer, and Database Administrator.\r\n\r\nProject Manager: Responsible for managing the project timeline and ensuring that all stakeholders are aligned with the project goals.\r\n\r\nSecurity Analyst: Responsible for conducting risk assessments and identifying potential vulnerabilities.\r\n\r\nData Scientist: Responsible for developing predictive models to predict future security threats.\r\n\r\nNetwork Engineer: Responsible for designing and configuring the new cryptographic key management system.\r\n\r\nDatabase Administrator: Responsible for maintaining the databases and ensuring data integrity.\r\n\r\nIn summary, the migration of your organization's IPsec IKEv2, ECDH P-384, AES-256-GCM gateway to quantum-safe algorithms requires careful planning, execution, and maintenance. The proposed approach will involve a comprehensive set of tools and resources to ensure optimal security while minimizing costs. With proper planning and execution, we can achieve the desired results."
+    },
+    {
+      "industry": "Cloud Service Provider",
+      "system": "API Authentication (JWT)",
+      "checks": {
+        "has_phases": false,
+        "has_algorithms": false,
+        "has_tools": false,
+        "has_compliance": false,
+        "has_timeline": false,
+        "has_rollback": false,
+        "has_testing": true,
+        "has_budget": false
+      },
+      "score": 1,
+      "max_score": 8,
+      "accuracy_pct": 12.5,
+      "source": "Cloud Security Alliance, NIST IR 8547",
+      "generated_text": "This should include:\n\n1. A detailed understanding of Quantum Cryptography fundamentals\n2. Selection of appropriate Quantum Algorithm for Classical Authentication\n3. Designing and implementing Quantum Key Distribution (QKD) protocol\n4. Testing QKD with a large-scale quantum system\n5. Integration of the Quantum Key Exchange (QKE) component into the current architecture\n6. Monitoring and troubleshooting the integration process\n\nEnsure that all steps are justified with technical details and examples.\nSure, I can provide a step-by-step migration plan for your organization to transition from classical cryptography to quantum-safe algorithms. The following is an outline of the steps involved, along with tools, deliverables, estimated effort, and responsibility groups.\n\n### Step 1: Understanding Quantum Cryptography Fundamentals\n1. **Outline**: Understand what quantum cryptography is and how it differs from classical cryptography.\n2. **Tools Used**: Tools like Qiskit, PyCrypto, Python, and Qiskit's Quantum Encryption System (QES).\n\n### Step 2: Selecting the Right Quantum Algorithm for Classical Authentication\n1. **Select Algorithms**: Choose either ECC (Elliptic Curve Digital Signature Algorithm) or RSA (Rivest–Shamir–Adleman).\n2. **Tool Used**: Use Qiskit for choosing the right algorithm based on your application requirements.\n\n### Step 3: Designing and Implementing Quantum Key Distribution (QKD) Protocol\n1. **Design**: Define the key distribution mechanism and how it will work.\n2. **Tool Used**: Use Qiskit for designing the QKD protocol based on the chosen algorithm.\n\n### Step 4: Testing QKD with a Large-Scale Quantum System\n1. **Setup**: Set up a quantum computing environment suitable for testing QKD.\n2. **Testing**: Test the QKD protocol by sending messages to the qubits using the chosen quantum algorithm.\n3. **Analysis**: Analyze the results of the test to verify the security of the protocol.\n\n### Step 5: Integration of the Quantum Key Exchange (QKE) Component into the Current Architecture\n1. **Setup**: Set up the necessary infrastructure for the QKE component.\n2. **Integration**: Integrate the QKE component with the existing authentication protocol.\n3. **Monitoring**: Monitor the performance of the QKE component to ensure it remains secure during the quantum system operation.\n\n### Step 6: Monitoring and Troubleshooting the Integration Process\n1. **Setup**: Set up monitoring systems for the current authentication system and the integration process.\n2. **Troubleshooting**: Address any issues that may arise during the integration process, such as failures in the QKD protocol or QKE component.\n3. **Documentation**: Document the process and outcomes of the integration to maintain transparency throughout the project.\n\nPlease note that this is just a general outline, and you might need to adjust it according to the specific requirements of your organization. It's important to have a clear and well-defined plan"
+    },
+    {
+      "industry": "Defense",
+      "system": "Secure Messaging",
+      "checks": {
+        "has_phases": false,
+        "has_algorithms": false,
+        "has_tools": false,
+        "has_compliance": false,
+        "has_timeline": false,
+        "has_rollback": false,
+        "has_testing": true,
+        "has_budget": false
+      },
+      "score": 1,
+      "max_score": 8,
+      "accuracy_pct": 12.5,
+      "source": "NSA CNSA 2.0, DoD CIO PQC Roadmap",
+      "generated_text": "Ensure that your plan is comprehensive and can be executed with minimal disruption to operations.\nTo move securely between classical cryptography and quantum-safe algorithms, consider using a hybrid approach that combines both approaches. This approach involves implementing AES-256-GCM as the primary encryption method, followed by ECDH (Error-Correcting Code Division Hierarchy) for error correction, and Signal Protocol for message integrity checks. Here's a step-by-step plan:\r\n\r\n1. Choose a suitable encryption algorithm: For classical cryptography, consider using AES-256-GCM. For quantum-safe encryption, use an appropriate Quantum Key Distribution protocol like QKD or Shor's algorithm.\r\n\r\n2. Develop an ECDH keypair: Use a trusted third-party ecdh library for this purpose.\r\n\r\n3. Implement AES-256-GCM: This will require using the AES-256-GCM algorithm. You can either implement it yourself or use an existing solution like the SHA-256 algorithm. Make sure to choose a secure algorithm for AES.\r\n\r\n4. Implement ECDH key exchange: As part of the ECDH key exchange process, you will need to perform an ECDH key agreement. This involves generating a public-private key pair and signing messages with these keys. The sign message function should be implemented in a way that ensures the signature is unique and tamper-proof.\r\n\r\n5. Implement Signal Protocol: The Signal Protocol is a protocol used to verify the integrity of messages. It uses a message digest algorithm like MD5 or SHA-256 to calculate the hash of the message before it is signed. After signing, the message is hashed again and the result is verified against the hash calculated during the sign operation.\r\n\r\n6. Perform a test run: Before deploying the system, it's important to conduct a test run to ensure that all aspects of the system are functioning correctly. This includes verifying that the ECDH key agreement works properly, that the Message Digest algorithm is working correctly, and that the Signal Protocol is working correctly.\r\n\r\n7. Roll out the system: Once the test runs pass, deploy the system on production servers. Make sure to set up logging and monitoring to ensure that any issues are promptly addressed.\r\n\r\nThis plan covers all necessary steps and tools required to move securely between classical cryptography and quantum-safe algorithms. It also emphasizes the importance of choosing the right encryption algorithm and developing strong ECDH keypairs to ensure data security. Additionally, it emphasizes the importance of testing the system thoroughly to prevent any potential vulnerabilities or issues. By following this plan, organizations can move seamlessly into the quantum age without disrupting their operations. \r\n\r\nIn conclusion, a successful quantum migration requires careful planning and execution of the entire process. By combining classical cryptography and quantum-safe algorithms, organizations can achieve high levels of data security while leveraging the power of quantum computing."
+    }
+  ]
+}
