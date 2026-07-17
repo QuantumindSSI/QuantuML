@@ -1,0 +1,62 @@
+{
+  "perplexity": 3.379722833633423,
+  "latency": {
+    "mean_latency_s": 18.46663279533386,
+    "min_latency_s": 11.489561796188354,
+    "max_latency_s": 21.2470121383667,
+    "p95_latency_s": 21.2470121383667
+  },
+  "memory": {
+    "gpu_allocated_mb": 0,
+    "gpu_reserved_mb": 0,
+    "cpu_ram_used_gb": 18.216941833496094,
+    "cpu_ram_total_gb": 62.74180221557617
+  },
+  "task_quality": {
+    "average_quality_percentage": 71.42857142857143,
+    "samples": [
+      {
+        "quality_score": 5,
+        "max_score": 7,
+        "checks": {
+          "mentions_severity": false,
+          "mentions_mechanism": false,
+          "has_recommendations": true,
+          "mentions_evidence": true,
+          "mentions_drug_pair": true,
+          "has_headers": true,
+          "mentions_outcomes": true
+        },
+        "quality_percentage": 71.42857142857143
+      },
+      {
+        "quality_score": 3,
+        "max_score": 7,
+        "checks": {
+          "mentions_severity": false,
+          "mentions_mechanism": false,
+          "has_recommendations": true,
+          "mentions_evidence": false,
+          "mentions_drug_pair": false,
+          "has_headers": true,
+          "mentions_outcomes": true
+        },
+        "quality_percentage": 42.857142857142854
+      },
+      {
+        "quality_score": 7,
+        "max_score": 7,
+        "checks": {
+          "mentions_severity": true,
+          "mentions_mechanism": true,
+          "has_recommendations": true,
+          "mentions_evidence": true,
+          "mentions_drug_pair": true,
+          "has_headers": true,
+          "mentions_outcomes": true
+        },
+        "quality_percentage": 100.0
+      }
+    ]
+  }
+}

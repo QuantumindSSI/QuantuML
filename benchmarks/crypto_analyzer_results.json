@@ -1,0 +1,65 @@
+{
+  "perplexity": 1.4507156610488892,
+  "latency": {
+    "mean_latency_s": 23.524476480484008,
+    "min_latency_s": 23.26888608932495,
+    "max_latency_s": 24.204237699508667,
+    "p95_latency_s": 24.204237699508667
+  },
+  "memory": {
+    "gpu_allocated_mb": 0,
+    "gpu_reserved_mb": 0,
+    "cpu_ram_used_gb": 17.954265594482422,
+    "cpu_ram_total_gb": 62.74180221557617
+  },
+  "task_quality": {
+    "average_quality_percentage": 83.33333333333333,
+    "samples": [
+      {
+        "quality_score": 7,
+        "max_score": 8,
+        "checks": {
+          "mentions_vulnerability_type": true,
+          "mentions_attack_vector": true,
+          "mentions_severity": false,
+          "has_mitigations": true,
+          "mentions_nist": true,
+          "mentions_algorithm": true,
+          "mentions_protocol": true,
+          "has_headers": true
+        },
+        "quality_percentage": 87.5
+      },
+      {
+        "quality_score": 6,
+        "max_score": 8,
+        "checks": {
+          "mentions_vulnerability_type": true,
+          "mentions_attack_vector": true,
+          "mentions_severity": false,
+          "has_mitigations": true,
+          "mentions_nist": true,
+          "mentions_algorithm": true,
+          "mentions_protocol": false,
+          "has_headers": true
+        },
+        "quality_percentage": 75.0
+      },
+      {
+        "quality_score": 7,
+        "max_score": 8,
+        "checks": {
+          "mentions_vulnerability_type": true,
+          "mentions_attack_vector": true,
+          "mentions_severity": true,
+          "has_mitigations": true,
+          "mentions_nist": true,
+          "mentions_algorithm": true,
+          "mentions_protocol": false,
+          "has_headers": true
+        },
+        "quality_percentage": 87.5
+      }
+    ]
+  }
+}

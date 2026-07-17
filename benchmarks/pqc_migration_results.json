@@ -1,0 +1,93 @@
+{
+  "perplexity": 1.5887901782989502,
+  "latency": {
+    "mean_latency_s": 19.253535509109497,
+    "min_latency_s": 18.228814363479614,
+    "max_latency_s": 20.917976140975952,
+    "p95_latency_s": 20.917976140975952
+  },
+  "memory": {
+    "gpu_allocated_mb": 0,
+    "gpu_reserved_mb": 0
+  },
+  "task_quality": {
+    "average_quality_percentage": 87.5,
+    "samples": [
+      {
+        "quality_score": 8,
+        "max_score": 8,
+        "checks": {
+          "has_phases": true,
+          "has_algorithms": true,
+          "has_tools": true,
+          "has_timeline": true,
+          "has_compliance": true,
+          "has_rollback": true,
+          "has_testing": true,
+          "has_budget": true
+        },
+        "quality_percentage": 100.0
+      },
+      {
+        "quality_score": 8,
+        "max_score": 8,
+        "checks": {
+          "has_phases": true,
+          "has_algorithms": true,
+          "has_tools": true,
+          "has_timeline": true,
+          "has_compliance": true,
+          "has_rollback": true,
+          "has_testing": true,
+          "has_budget": true
+        },
+        "quality_percentage": 100.0
+      },
+      {
+        "quality_score": 8,
+        "max_score": 8,
+        "checks": {
+          "has_phases": true,
+          "has_algorithms": true,
+          "has_tools": true,
+          "has_timeline": true,
+          "has_compliance": true,
+          "has_rollback": true,
+          "has_testing": true,
+          "has_budget": true
+        },
+        "quality_percentage": 100.0
+      },
+      {
+        "quality_score": 5,
+        "max_score": 8,
+        "checks": {
+          "has_phases": true,
+          "has_algorithms": false,
+          "has_tools": true,
+          "has_timeline": true,
+          "has_compliance": true,
+          "has_rollback": false,
+          "has_testing": false,
+          "has_budget": true
+        },
+        "quality_percentage": 62.5
+      },
+      {
+        "quality_score": 6,
+        "max_score": 8,
+        "checks": {
+          "has_phases": true,
+          "has_algorithms": true,
+          "has_tools": true,
+          "has_timeline": true,
+          "has_compliance": false,
+          "has_rollback": true,
+          "has_testing": false,
+          "has_budget": true
+        },
+        "quality_percentage": 75.0
+      }
+    ]
+  }
+}

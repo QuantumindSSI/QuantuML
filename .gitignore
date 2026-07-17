@@ -1,0 +1,97 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# PyTorch
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+# Models (large files)
+base_model/
+outputs/
+*.bin
+*.model
+
+# Data (can be large)
+data/raw/
+data/raw_ddi/
+data/raw_vuln/
+data/processed/
+data/processed_poc/
+data/processed_vuln/
+data/processed_vuln_quick/
+data/processed_ddi_quick/
+data/hybrid/
+!data/*.py
+!data/README.md
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+logs_*/
+
+# Environment
+.env
+.env.local
+
+# Kaggle
+credentials.json
+kaggle.json
+
+# HuggingFace
+token
+.hf_token
+
+# ONNX
+*.onnx
+onnx/
+
+# Deployment packages (large)
+deployment/victron/*/victron_package/model/
+deployment/victron/*/victron_package/model.safetensors
+
+# Temporary
+tmp/
+temp/
+*.tmp

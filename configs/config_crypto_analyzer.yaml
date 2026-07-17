@@ -1,0 +1,104 @@
+# QuantuML - Quantum-Resistant Cryptographic Protocol Analyzer
+# Enterprise ML Fine-Tuning Configuration
+
+project:
+  name: "Quantum-Resistant Cryptographic Protocol Analyzer"
+  version: "1.0.0"
+  author: "QuantumIndSSI Ltd"
+  license: "apache-2.0"
+  huggingface_repo: "quantumindssi/01_quantum_resistant_crypto_analyzer"
+
+model:
+  base_model: "./base_model"
+  model_revision: "main"
+  torch_dtype: "float32"
+  device_map: "auto"
+  trust_remote_code: false
+  use_flash_attention: false
+
+data:
+  raw_dir: "./data/raw_vuln"
+  processed_dir: "./data/processed_vuln"
+  train_file: "train.jsonl"
+  eval_file: "eval.jsonl"
+  test_file: "test.jsonl"
+  validation_split: 0.1
+  test_split: 0.05
+  max_seq_length: 1024
+  num_proc: 4
+
+training:
+  output_dir: "./outputs/models_crypto"
+  logging_dir: "./outputs/logs_crypto"
+  num_train_epochs: 1
+  per_device_train_batch_size: 1
+  per_device_eval_batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 2.0e-4
+  weight_decay: 0.01
+  warmup_ratio: 0.03
+  lr_scheduler_type: "cosine"
+  logging_steps: 50
+  eval_strategy: "steps"
+  eval_steps: 500
+  save_strategy: "steps"
+  save_steps: 1000
+  save_total_limit: 2
+  load_best_model_at_end: true
+  metric_for_best_model: "eval_loss"
+  greater_is_better: false
+  fp16: false
+  bf16: false
+  gradient_checkpointing: true
+  max_grad_norm: 0.3
+  group_by_length: true
+  report_to: []
+  seed: 42
+  dataloader_num_workers: 2
+  remove_unused_columns: false
+
+lora:
+  use_lora: true
+  r: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  bias: "none"
+  task_type: "CAUSAL_LM"
+  target_modules: ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  use_rslora: false
+
+qlora:
+  use_qlora: false
+  load_in_4bit: true
+  bnb_4bit_quant_type: "nf4"
+  bnb_4bit_compute_dtype: "bfloat16"
+  bnb_4bit_use_double_quant: true
+
+rl:
+  dpo_beta: 0.1
+  dpo_learning_rate: 1.0e-6
+  ppo_learning_rate: 1.41e-5
+  orpo_beta: 0.1
+
+inference:
+  max_new_tokens: 512
+  temperature: 0.7
+  top_p: 0.9
+  top_k: 40
+  repetition_penalty: 1.1
+  do_sample: true
+
+edge:
+  quantization:
+    enabled: true
+    method: "int8"
+  onnx:
+    export: true
+    optimize_for: "cpu"
+  max_memory_mb: 4096
+  max_latency_ms: 1000
+
+hf:
+  push_to_hub: false
+  private_repo: false
+  token: null
