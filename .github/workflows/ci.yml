@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install lint/test tooling
+        run: pip install ruff==0.11.* fastapi pydantic prometheus-client pyyaml
+
+      - name: Ruff lint (serving + pipeline scripts)
+        run: ruff check deployment/api/serve.py scripts/ --output-format github
+
+      - name: Python syntax check across src
+        run: python -m compileall -q src/ scripts/ deployment/api/
+
+      - name: Validate serve app imports (no torch needed for schema check)
+        run: python -c "import ast; ast.parse(open('deployment/api/serve.py').read())"
+
+      - name: Validate kustomize overlays render
+        run: |
+          for overlay in pqc crypto ddi; do
+            kubectl kustomize deployment/k8s/overlays/$overlay > /dev/null
+            echo "overlay $overlay OK"
+          done
+
+      - name: Bicep build (validates template compiles)
+        run: |
+          az bicep build --file infra/main.bicep --stdout > /dev/null
+          echo "bicep OK"
+
+  docker-build-check:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build image (no push; validates Dockerfile end-to-end)
+        run: docker build -f deployment/docker/Dockerfile -t quantuml/model-server:ci .

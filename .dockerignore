@@ -1,0 +1,11 @@
+venv/
+base_model/
+outputs/
+data/
+notebooks/
+benchmarks/
+docs/
+.git/
+.env
+**/__pycache__/
+*.log

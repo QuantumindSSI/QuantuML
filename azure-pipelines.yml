@@ -1,0 +1,100 @@
+# Azure DevOps pipeline: build + deploy QuantuML model servers to AKS.
+# Prerequisites (one-time in Azure DevOps project settings):
+#   - Service connection "quantuml-azure" (Azure Resource Manager, workload
+#     identity federation, scoped to the subscription).
+#   - Variable group "quantuml-infra" with: AZURE_RG, ACR_NAME, AKS_NAME.
+
+trigger:
+  branches:
+    include: [main]
+  paths:
+    include:
+      - deployment/*
+      - infra/*
+      - azure-pipelines.yml
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: quantuml-infra
+  - name: imageTag
+    value: $(Build.SourceVersion)
+
+stages:
+  - stage: Validate
+    jobs:
+      - job: lint
+        steps:
+          - task: UsePythonVersion@0
+            inputs:
+              versionSpec: "3.12"
+          - script: |
+              pip install ruff==0.11.*
+              ruff check deployment/api/serve.py scripts/
+              python -m compileall -q src/ scripts/ deployment/api/
+            displayName: Lint and syntax check
+          - script: |
+              for overlay in pqc crypto ddi; do
+                kubectl kustomize deployment/k8s/overlays/$overlay > /dev/null
+              done
+            displayName: Validate kustomize overlays
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: quantuml-azure
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: az bicep build --file infra/main.bicep --stdout > /dev/null
+            displayName: Bicep template compiles
+
+  - stage: Build
+    dependsOn: Validate
+    jobs:
+      - job: acr_build
+        steps:
+          - task: AzureCLI@2
+            inputs:
+              azureSubscription: quantuml-azure
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                az acr build \
+                  --registry "$(ACR_NAME)" \
+                  --image quantuml/model-server:$(imageTag) \
+                  --image quantuml/model-server:latest \
+                  --file deployment/docker/Dockerfile .
+            displayName: Build image in ACR
+
+  - stage: Deploy
+    dependsOn: Build
+    jobs:
+      - deployment: deploy_aks
+        environment: production
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - checkout: self
+                - task: AzureCLI@2
+                  inputs:
+                    azureSubscription: quantuml-azure
+                    scriptType: bash
+                    scriptLocation: inlineScript
+                    inlineScript: |
+                      set -euo pipefail
+                      az aks get-credentials -g "$(AZURE_RG)" -n "$(AKS_NAME)" --overwrite-existing
+                      az aks install-cli --install-location ./kubectl --kubelogin-install-location ./kubelogin
+                      export PATH="$PWD:$PATH"
+                      kubelogin convert-kubeconfig -l azurecli
+
+                      ./kubectl apply -f deployment/k8s/ingress.yaml
+                      ACR_SERVER="$(ACR_NAME).azurecr.io"
+                      for overlay in pqc crypto ddi; do
+                        ./kubectl kustomize deployment/k8s/overlays/$overlay \
+                          | sed "s|quantuml/model-server:latest|$ACR_SERVER/quantuml/model-server:$(imageTag)|" \
+                          | ./kubectl apply -f -
+                      done
+                      for overlay in pqc crypto ddi; do
+                        ./kubectl rollout status deployment/model-server-$overlay -n quantuml --timeout=15m
+                      done
+                  displayName: Deploy overlays and wait for rollout

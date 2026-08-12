@@ -95,3 +95,12 @@ deployment/victron/*/victron_package/model.safetensors
 tmp/
 temp/
 *.tmp
+
+# Generated/downloaded datasets (reproducible via scripts/)
+data/raw_*/
+data/mlx_*/
+data/real_world/
+!data/mlx_*/manifest.json
+
+# Deployment outputs
+infra/.last_outputs.json

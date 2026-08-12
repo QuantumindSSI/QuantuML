@@ -1,0 +1,95 @@
+name: CD
+
+# Deploys to AKS on main pushes touching serving/infra code, or manually.
+# Auth: OIDC federated credential (no stored secrets) - run
+# infra/setup_github_oidc.sh once to create the app registration.
+#
+# Required repository variables (Settings > Secrets and variables > Actions):
+#   AZURE_CLIENT_ID, AZURE_TENANT_ID, AZURE_SUBSCRIPTION_ID
+#   AZURE_RG (resource group), ACR_NAME, AKS_NAME
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "deployment/**"
+      - "infra/**"
+      - ".github/workflows/cd.yml"
+  workflow_dispatch:
+    inputs:
+      adapter_revision:
+        description: "Adapter revision (HF commit SHA) to promote"
+        required: false
+        default: "main"
+
+permissions:
+  id-token: write
+  contents: read
+
+concurrency:
+  group: cd-production
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.AZURE_CLIENT_ID }}
+          tenant-id: ${{ vars.AZURE_TENANT_ID }}
+          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Build image in ACR (cloud-side build)
+        run: |
+          az acr build \
+            --registry "${{ vars.ACR_NAME }}" \
+            --image quantuml/model-server:${{ github.sha }} \
+            --image quantuml/model-server:latest \
+            --file deployment/docker/Dockerfile .
+
+      - name: Get AKS credentials
+        run: |
+          az aks get-credentials \
+            --resource-group "${{ vars.AZURE_RG }}" \
+            --name "${{ vars.AKS_NAME }}" \
+            --overwrite-existing
+          # kubelogin converts kubeconfig to use the federated token
+          az aks install-cli --install-location ./kubectl --kubelogin-install-location ./kubelogin
+          export PATH="$PWD:$PATH"
+          kubelogin convert-kubeconfig -l azurecli
+
+      - name: Deploy namespace + ingress
+        run: |
+          export PATH="$PWD:$PATH"
+          ./kubectl apply -f deployment/k8s/ingress.yaml
+
+      - name: Deploy model overlays with pinned image
+        run: |
+          export PATH="$PWD:$PATH"
+          ACR_SERVER="${{ vars.ACR_NAME }}.azurecr.io"
+          for overlay in pqc crypto ddi; do
+            pushd deployment/k8s/overlays/$overlay
+            ../../../../kubectl kustomize . | sed "s|quantuml/model-server:latest|$ACR_SERVER/quantuml/model-server:${{ github.sha }}|" | ../../../../kubectl apply -f -
+            popd
+          done
+
+      - name: Wait for rollout
+        run: |
+          export PATH="$PWD:$PATH"
+          for overlay in pqc crypto ddi; do
+            ./kubectl rollout status deployment/model-server-$overlay -n quantuml --timeout=15m
+          done
+
+      - name: Smoke test via in-cluster call
+        run: |
+          export PATH="$PWD:$PATH"
+          for overlay in pqc crypto ddi; do
+            ./kubectl run smoke-$overlay --rm -i --restart=Never -n quantuml \
+              --image=curlimages/curl:8.10.1 -- \
+              curl -sf http://model-server-$overlay/readyz
+          done

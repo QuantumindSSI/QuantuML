@@ -1,0 +1,51 @@
+# QuantuML - PQC Migration Advisor v2 - MLX-LM LoRA config (Apple Silicon)
+# Mirrors configs/config_pqc_v2.yaml hyperparameters:
+#   LoRA r=16, alpha=32 (scale = alpha/r = 2.0), dropout 0.05, all attn+mlp projections
+#   lr 2e-4, cosine schedule, warmup ratio 0.03, effective batch 16, 2 epochs, seed 42
+#
+# Run:
+#   ./venv/bin/python -m mlx_lm lora -c configs/mlx_lora_pqc.yaml
+# Iters math: 4675 train samples x 2 epochs / batch_size 4 = 2338 -> 2340
+
+model: "./base_model"
+train: true
+data: "./data/mlx_pqc_v2"
+seed: 42
+
+fine_tune_type: lora
+optimizer: adamw
+num_layers: -1            # all 24 layers, matching PEFT target coverage
+
+batch_size: 4
+grad_accumulation_steps: 4  # effective batch 16 (= 4 x 4 in torch config)
+iters: 2340
+max_seq_length: 1024
+grad_checkpoint: true
+
+learning_rate: 2.0e-4
+lr_schedule:
+  name: cosine_decay
+  warmup: 70              # ~0.03 * 2340
+  warmup_init: 1.0e-7
+  arguments: [2.0e-4, 2340, 0.0]   # [init_lr, decay_steps, end_lr]
+
+lora_parameters:
+  keys:
+    - "self_attn.q_proj"
+    - "self_attn.k_proj"
+    - "self_attn.v_proj"
+    - "self_attn.o_proj"
+    - "mlp.gate_proj"
+    - "mlp.up_proj"
+    - "mlp.down_proj"
+  rank: 16
+  scale: 2.0
+  dropout: 0.05
+
+adapter_path: "./outputs/mlx_adapters/pqc_v2"
+save_every: 500
+steps_per_report: 25
+steps_per_eval: 500
+val_batches: 25
+test: true
+test_batches: -1
