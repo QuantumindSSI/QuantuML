@@ -27,13 +27,15 @@ Endpoints:
 """
 
 import asyncio
+import hmac
 import logging
 import os
 import time
 from contextlib import asynccontextmanager
 
 import torch
-from fastapi import FastAPI, HTTPException, Response
+from fastapi import Depends, FastAPI, HTTPException, Response
+from fastapi.security import APIKeyHeader
 from prometheus_client import (
     CONTENT_TYPE_LATEST,
     Counter,
@@ -185,6 +187,23 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="QuantuML Model Server", version="2.0.0", lifespan=lifespan)
 
+# ---------------------------------------------------------------------------
+# API-key authentication for inference endpoints.
+# When the API_KEY env var is set (via k8s secret), /generate requires a
+# matching X-API-Key header. Probes (/healthz, /readyz) and /metrics stay
+# open: kubelet and Prometheus scrapers do not carry credentials.
+# ---------------------------------------------------------------------------
+_api_key_header = APIKeyHeader(name="X-API-Key", auto_error=False)
+
+
+async def require_api_key(provided: str = Depends(_api_key_header)) -> None:
+    expected = os.environ.get("API_KEY", "")
+    if not expected:
+        return  # auth disabled when no key configured
+    if not provided or not hmac.compare_digest(provided, expected):
+        REQUESTS_TOTAL.labels(task=str(STATE.task), status="unauthorized").inc()
+        raise HTTPException(status_code=401, detail="Invalid or missing API key")
+
 
 class GenerateRequest(BaseModel):
     prompt: str = Field(..., min_length=3, max_length=4000)
@@ -242,7 +261,7 @@ def _generate_sync(req: GenerateRequest) -> GenerateResponse:
     )
 
 
-@app.post("/generate", response_model=GenerateResponse)
+@app.post("/generate", response_model=GenerateResponse, dependencies=[Depends(require_api_key)])
 async def generate(req: GenerateRequest):
     if not STATE.ready:
         REQUESTS_TOTAL.labels(task=str(STATE.task), status="unavailable").inc()

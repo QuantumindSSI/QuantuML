@@ -43,6 +43,12 @@ spec:
                   name: appinsights
                   key: connection-string
                   optional: true
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: api-auth
+                  key: api-key
+                  optional: true
           resources:
             requests:
               cpu: "1"
